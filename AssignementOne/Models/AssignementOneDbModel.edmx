@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Assignemen1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="course_id" />
+          </Key>
+          <Property Name="course_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="course_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="course_grade" Type="int" />
+          <Property Name="student_id" Type="int" />
+          <Property Name="staff_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Staff_Details">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="qualifications" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Student_Detail">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dob" Type="datetime" />
+          <Property Name="class_name" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Courses_dbo_Staff_Details_staff_id">
+          <End Role="Staff_Details" Type="Self.Staff_Details" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff_Details">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Courses_dbo_Student_Detail_student_id">
+          <End Role="Student_Detail" Type="Self.Student_Detail" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student_Detail">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Assignemen1ModelStoreContainer">
+          <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff_Details" EntityType="Self.Staff_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student_Detail" EntityType="Self.Student_Detail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Courses_dbo_Staff_Details_staff_id" Association="Self.FK_dbo_Courses_dbo_Staff_Details_staff_id">
+            <End Role="Staff_Details" EntitySet="Staff_Details" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Courses_dbo_Student_Detail_student_id" Association="Self.FK_dbo_Courses_dbo_Student_Detail_student_id">
+            <End Role="Student_Detail" EntitySet="Student_Detail" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Assignemen1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cours">
+          <Key>
+            <PropertyRef Name="course_id" />
+          </Key>
+          <Property Name="course_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="course_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="course_grade" Type="Int32" />
+          <Property Name="student_id" Type="Int32" />
+          <Property Name="staff_id" Type="Int32" />
+          <NavigationProperty Name="Staff_Details" Relationship="Self.FK_dbo_Courses_dbo_Staff_Details_staff_id" FromRole="Courses" ToRole="Staff_Details" />
+          <NavigationProperty Name="Student_Detail" Relationship="Self.FK_dbo_Courses_dbo_Student_Detail_student_id" FromRole="Courses" ToRole="Student_Detail" />
+        </EntityType>
+        <EntityType Name="Staff_Details">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="qualifications" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_dbo_Courses_dbo_Staff_Details_staff_id" FromRole="Staff_Details" ToRole="Courses" />
+        </EntityType>
+        <EntityType Name="Student_Detail">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dob" Type="DateTime" Precision="3" />
+          <Property Name="class_name" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_dbo_Courses_dbo_Student_Detail_student_id" FromRole="Student_Detail" ToRole="Courses" />
+        </EntityType>
+        <Association Name="FK_dbo_Courses_dbo_Staff_Details_staff_id">
+          <End Role="Staff_Details" Type="Self.Staff_Details" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Courses" Type="Self.Cours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff_Details">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Courses_dbo_Student_Detail_student_id">
+          <End Role="Student_Detail" Type="Self.Student_Detail" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Courses" Type="Self.Cours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student_Detail">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Assignemen1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="Self.Cours" />
+          <EntitySet Name="Staff_Details" EntityType="Self.Staff_Details" />
+          <EntitySet Name="Student_Detail" EntityType="Self.Student_Detail" />
+          <AssociationSet Name="FK_dbo_Courses_dbo_Staff_Details_staff_id" Association="Self.FK_dbo_Courses_dbo_Staff_Details_staff_id">
+            <End Role="Staff_Details" EntitySet="Staff_Details" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Courses_dbo_Student_Detail_student_id" Association="Self.FK_dbo_Courses_dbo_Student_Detail_student_id">
+            <End Role="Student_Detail" EntitySet="Student_Detail" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Assignemen1ModelStoreContainer" CdmEntityContainer="Assignemen1Entities">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="Assignemen1Model.Cours">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="course_name" ColumnName="course_name" />
+                <ScalarProperty Name="course_grade" ColumnName="course_grade" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staff_Details">
+            <EntityTypeMapping TypeName="Assignemen1Model.Staff_Details">
+              <MappingFragment StoreEntitySet="Staff_Details">
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="qualifications" ColumnName="qualifications" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student_Detail">
+            <EntityTypeMapping TypeName="Assignemen1Model.Student_Detail">
+              <MappingFragment StoreEntitySet="Student_Detail">
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
